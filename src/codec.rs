@@ -396,6 +396,12 @@ impl Decoder for WireCodec {
         }
 
         if !self.handshake_seen {
+            let pstrlen = src[0] as usize;
+
+            if src.len() < (20 + 20 + 8 + 1 + pstrlen) {
+                return Ok(None);
+            }
+
             let mut cursor = Cursor::new(&mut src[..]);
             let handshake: Handshake = cursor.read_be()?;
 
