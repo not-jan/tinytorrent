@@ -407,7 +407,7 @@ impl Decoder for WireCodec {
 
         let mut length_bytes = [0u8; 4];
         length_bytes.copy_from_slice(&src[..4]);
-        src.advance(4);
+
 
         let length = u32::from_be_bytes(length_bytes) as usize;
 
@@ -415,9 +415,11 @@ impl Decoder for WireCodec {
             return Ok(Some(Message::KeepAlive));
         }
 
-        if src.remaining() < length || length == 0 {
+        if src.remaining() < length {
             return Ok(None);
         }
+
+        src.advance(4);
 
         let message_id = src[0];
         src.advance(1);
