@@ -1,0 +1,15 @@
+services:
+  client:
+    build:
+      context: .
+    container_name: "client"
+    restart: unless-stopped
+    ports:
+      - 8082:8082
+    volumes:
+      - "./volumes:/torrents:ro"
+    environment:
+      LISTEN_ADDRESS: 0.0.0.0
+      LISTEN_PORT: 8082
+      RUST_LOG: debug
+      TORRENT_DIR: /torrents
