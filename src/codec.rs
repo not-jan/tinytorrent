@@ -416,11 +416,7 @@ impl Decoder for WireCodec {
         }
 
         if src.remaining() < length || length == 0 {
-            return Err(anyhow!(
-                "Client sent invalid length! Requested {:#08X?} for {:#08X?} remaining",
-                length,
-                src.remaining()
-            ));
+            return Ok(None);
         }
 
         let message_id = src[0];
